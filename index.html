@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>23 동중 2-1 중간</title>
+  <!-- 구글 폰트 로드 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- MathJax 라이브러리 로드 -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+  <style>
+    :root {
+      --primary-color: #3498db;
+      --primary-dark: #2980b9;
+      --secondary-color: #2c3e50;
+      --light-gray: #f8f9fa;
+      --light-gray-2: #ecf0f1;
+      --border-gray: #ddd;
+      --success-color: #2ecc71;
+      --success-dark: #27ae60;
+      --warning-color: #f39c12;
+      --warning-dark: #d35400;
+      --danger-color: #e74c3c;
+      --danger-dark: #c0392b;
+      --purple-color: #9b59b6;
+      --purple-dark: #8e44ad;
+      --disabled-color: #bdc3c7;
+      --banner-gradient: linear-gradient(135deg, rgba(52,152,219,0.7) 0%, rgba(44,62,80,0.8) 100%);
+      --body-gradient: linear-gradient(315deg, #f0f0f0 0%, #ffffff 74%);
+      --light-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      --medium-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      --hover-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+    body {
+      background-image: var(--body-gradient);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 10px;
+      color: #333;
+      line-height: 1.6;
+    }
+    .banner {
+      width: 100%;
+      text-align: center;
+      background-color: var(--secondary-color);
+      color: white;
+      padding: 15px 0;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .banner h1 {
+      position: relative;
+      z-index: 2;
+      font-size: 2.2rem;
+      margin: 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    .banner::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--banner-gradient);
+      z-index: 1;
+    }
+    .container {
+      max-width: 1100px;
+      width: 95%;
+      margin: 0 auto 30px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: var(--medium-shadow);
+      padding: 30px;
+      transition: all 0.3s ease;
+    }
+    .container:hover {
+      box-shadow: var(--hover-shadow);
+    }
+    .info-panel {
+      display: flex;
+      justify-content: space-between;
+      background-color: var(--light-gray);
+      padding: 15px 10px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+      box-shadow: var(--light-shadow);
+      flex-wrap: nowrap;
+    }
+    .info-item {
+      text-align: center;
+      padding: 0 10px;
+      flex: 1;
+    }
+    .info-label {
+      font-weight: 500;
+      margin-bottom: 5px;
+      color: #7f8c8d;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+    .info-value {
+      font-size: 1.3rem;
+      color: var(--secondary-color);
+      font-weight: bold;
+    }
+    .input-group {
+      margin-bottom: 22px;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--secondary-color);
+    }
+    input, select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid var(--primary-color);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s;
+      outline: none;
+    }
+    input:focus, select:focus {
+      border-color: var(--primary-dark);
+      box-shadow: 0 0 8px rgba(52,152,219,0.5);
+    }
+    .btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 24px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin: 10px 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+    .btn:active {
+      transform: translateY(1px);
+    }
+    .btn:disabled {
+      background-color: var(--disabled-color);
+      cursor: not-allowed;
+      transform: none;
+    }
+    .btn-start {
+      background-color: var(--success-color);
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      display: block;
+      margin: 25px auto 10px;
+    }
+    .btn-start:hover {
+      background-color: var(--success-dark);
+    }
+    .btn-next {
+      background-color: var(--purple-color);
+    }
+    .btn-next:hover {
+      background-color: var(--purple-dark);
+    }
+    .btn-submit {
+      background-color: var(--warning-color);
+    }
+    .btn-submit:hover {
+      background-color: var(--warning-dark);
+    }
+    .btn-retry {
+      background-color: var(--danger-color);
+    }
+    .btn-retry:hover {
+      background-color: var(--danger-dark);
+    }
+    .question-container {
+      margin-bottom: 25px;
+      padding: 15px;
+      background-color: var(--light-gray);
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+    .question-number {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: var(--secondary-color);
+      background-color: var(--light-gray-2);
+      padding: 8px 15px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+    .question-image {
+      max-width: 100%;
+      height: auto;
+      margin: 20px 0;
+      border-radius: 5px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+    .options {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 25px 0;
+      width: 100%;
+      max-width: 100%;
+    }
+    .option-btn {
+      width: 55px;
+      height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--primary-color);
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+      flex: 0 0 auto;
+    }
+    .option-btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+    }
+    .option-btn.selected {
+      background-color: var(--danger-color);
+      color: white;
+    }
+    .option-btn.correct {
+      background-color: var(--success-color);
+      color: white;
+    }
+    .option-btn.incorrect {
+      background-color: var(--danger-color);
+      color: white;
+    }
+    .input-answer {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 25px 0;
+    }
+    .input-answer input {
+      max-width: 250px;
+      border: 2px solid var(--primary-color);
+      border-radius: 8px;
+      padding: 12px 15px;
+      font-size: 1rem;
+    }
+    .feedback {
+      margin: 20px 0;
+      padding: 15px;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 1.1rem;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .feedback.correct {
+      background-color: rgba(46,204,113,0.1);
+      color: var(--success-dark);
+      border-left: 4px solid var(--success-color);
+    }
+    .feedback.incorrect {
+      background-color: rgba(231,76,60,0.1);
+      color: var(--danger-dark);
+      border-left: 4px solid var(--danger-color);
+    }
+    #progress-container {
+      width: 100%;
+      background-color: var(--border-gray);
+      border-radius: 5px;
+      margin-top: 10px;
+      height: 20px;
+    }
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+      border-radius: 5px;
+      transition: width 0.5s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    #loadingSpinner {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    #start-screen, #game-screen, #end-screen {
+      width: 100%;
+      opacity: 1;
+      transition: opacity 0.5s;
+    }
+    #game-screen, #end-screen {
+      display: none;
+    }
+    @media (max-width: 480px) {
+      .container {
+        padding: 10px;
+        width: 100%;
+        border-radius: 8px;
+      }
+      .banner h1 {
+        font-size: 1.5rem;
+      }
+      .info-panel {
+        padding: 8px 3px;
+        margin-bottom: 15px;
+      }
+      .info-item {
+        padding: 0 3px;
+      }
+      .info-label {
+        font-size: 0.7rem;
+        margin-bottom: 3px;
+      }
+      .info-value {
+        font-size: 1rem;
+      }
+      .btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        margin: 8px 3px;
+      }
+      .option-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 0.9rem;
+      }
+      .options {
+        gap: 5px;
+        margin: 15px 0;
+      }
+      .question-number {
+        font-size: 1rem;
+        padding: 6px 12px;
+        margin-bottom: 10px;
+      }
+      .feedback {
+        margin: 15px 0;
+        padding: 12px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 배너 영역 -->
+  <div class="banner">
+    <h1>23 동중 2-1 중간</h1>
+  </div>
+  
+  <!-- 로딩 스피너 (필요 시) -->
+  <div id="loadingSpinner">
+    <div class="spinner"></div>
+  </div>
+  
+  <!-- 시작 화면 -->
+  <div id="start-screen" class="container">
+    <h2 style="text-align: center; margin-bottom: 20px; color: var(--secondary-color);">수학 문제 풀이 게임</h2>
+    <div class="input-group">
+      <label for="player-name">이름</label>
+      <input type="text" id="player-name" placeholder="이름을 입력하세요">
+    </div>
+    <button id="start-btn" class="btn btn-start">게임 시작</button>
+  </div>
+  
+  <!-- 게임 화면 -->
+  <div id="game-screen" class="container">
+    <div class="info-panel">
+      <div class="info-item">
+        <div class="info-label">점수</div>
+        <div class="info-value" id="score">0</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">남은 기회</div>
+        <div class="info-value" id="chances">3</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">경과 시간</div>
+        <div class="info-value" id="elapsed-time">00:00</div>
+      </div>
+    </div>
+    
+    <div class="question-container">
+      <div class="question-number" id="question-number">문제 1</div>
+      <div>
+        <img id="question-image" class="question-image" src="" alt="문제 이미지">
+      </div>
+      
+      <!-- 객관식 선택지를 위한 영역 -->
+      <div id="options" class="options"></div>
+      
+      <!-- 주관식 입력 영역 -->
+      <div id="input-answer" class="input-answer" style="display: none;">
+        <input type="text" id="answer-input" placeholder="답을 입력하세요">
+        <button id="check-answer" class="btn">확인</button>
+      </div>
+      
+      <!-- 피드백 영역 -->
+      <div id="feedback" class="feedback"></div>
+      
+      <!-- 진행률 게이지 -->
+      <div id="progress-container">
+        <div id="progress-bar"></div>
+      </div>
+      
+      <button id="next-btn" class="btn btn-next" disabled>다음 문제</button>
+    </div>
+  </div>
+  
+  <!-- 종료 화면 -->
+  <div id="end-screen" class="container">
+    <div class="result-title" style="text-align: center; font-size:2rem; font-weight:bold; color: var(--secondary-color); margin-bottom:20px;">게임 종료</div>
+    <div class="result-info">
+      <strong>최종 점수:</strong> <span id="final-score">0</span>
+    </div>
+    <div class="result-info">
+      <strong>총 경과 시간:</strong> <span id="final-time">00:00</span>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+      <button id="restart-btn" class="btn btn-retry" style="display: none;">다시하기</button>
+      <button id="submit-btn" class="btn btn-submit">전송하기</button>
+    </div>
+    <div id="response"></div>
+  </div>
+  
+  <script>
+    // 게임 제목 변수 (서버 전송 시 사용)
+    const gameTitle = "23 동중 2-1 중간";
+    
+    // 질문 데이터 배열 (순차적 출제)
+    const questions = [
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/1.png?raw=true', answer: '3&5', type: '객관식' },
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/2.png?raw=true', answer: '1', type: '객관식' },
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/3.png?raw=true', answer: '3', type: '객관식' },
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/4.png?raw=true', answer: '2', type: '객관식' },
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/5.png?raw=true', answer: '5', type: '객관식' },
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/6.png?raw=true', answer: '2', type: '객관식' },
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/7.png?raw=true', answer: '4&5', type: '객관식' },
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/8.png?raw=true', answer: '4', type: '객관식' },
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/9.png?raw=true', answer: '2', type: '객관식' },
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/10.png?raw=true', answer: '2', type: '객관식' },
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/11.png?raw=true', answer: '1', type: '객관식' },
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/12.png?raw=true', answer: '3', type: '객관식' },
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/13.png?raw=true', answer: '3', type: '객관식' },
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/14.png?raw=true', answer: '2', type: '객관식' },
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/15.png?raw=true', answer: '3', type: '객관식' },
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/16.png?raw=true', answer: '3', type: '객관식' },
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/18.png?raw=true', answer: '30', type: '주관식' },
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/20.png?raw=true', answer: '34', type: '주관식' },
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/21.png?raw=true', answer: '364', type: '주관식' },
+      { image: 'https://github.com/dr-youngjin/image-file/blob/main/23%EB%8F%99%EC%A4%912-1/22.png?raw=true', answer: '26000', type: '주관식' }
+    ];
+    
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let chances = 3;
+    let playerName = '';
+    let overallStartTime = null;
+    let overallTimerInterval = null;
+    let selectedOptions = [];
+    
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+    
+    const startScreen = document.getElementById('start-screen');
+    const gameScreen = document.getElementById('game-screen');
+    const endScreen = document.getElementById('end-screen');
+    const startBtn = document.getElementById('start-btn');
+    const playerNameInput = document.getElementById('player-name');
+    const scoreEl = document.getElementById('score');
+    const chancesEl = document.getElementById('chances');
+    const elapsedTimeEl = document.getElementById('elapsed-time');
+    const questionNumberEl = document.getElementById('question-number');
+    const questionImageEl = document.getElementById('question-image');
+    const optionsDiv = document.getElementById('options');
+    const inputAnswerDiv = document.getElementById('input-answer');
+    const answerInput = document.getElementById('answer-input');
+    const checkAnswerBtn = document.getElementById('check-answer');
+    const feedbackEl = document.getElementById('feedback');
+    const progressBar = document.getElementById('progress-bar');
+    const nextBtn = document.getElementById('next-btn');
+    const restartBtn = document.getElementById('restart-btn');
+    const submitBtn = document.getElementById('submit-btn');
+    const finalScoreEl = document.getElementById('final-score');
+    const finalTimeEl = document.getElementById('final-time');
+    
+    // 시작 버튼: 질문 배열을 랜덤으로 섞은 후 시작
+    startBtn.addEventListener('click', () => {
+      playerName = playerNameInput.value.trim();
+      if (!playerName) {
+        alert('이름을 입력해주세요.');
+        return;
+      }
+      shuffle(questions);
+      startScreen.style.display = 'none';
+      gameScreen.style.display = 'block';
+      overallStartTime = Date.now();
+      overallTimerInterval = setInterval(updateOverallTimer, 1000);
+      currentQuestionIndex = 0;
+      score = 0;
+      chances = 3;
+      updateInfo();
+      loadQuestion();
+    });
+    
+    function updateInfo() {
+      scoreEl.innerText = score;
+      chancesEl.innerText = chances;
+    }
+    
+    function updateOverallTimer() {
+      const elapsedSec = Math.floor((Date.now() - overallStartTime) / 1000);
+      elapsedTimeEl.innerText = formatTime(elapsedSec);
+    }
+    
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
+    }
+    
+    function loadQuestion() {
+      feedbackEl.innerText = '';
+      feedbackEl.className = 'feedback';
+      nextBtn.disabled = true;
+      selectedOptions = [];
+      
+      if (currentQuestionIndex >= questions.length) {
+        endGame();
+        return;
+      }
+      const currentQ = questions[currentQuestionIndex];
+      questionNumberEl.innerText = `문제 ${currentQuestionIndex + 1}`;
+      questionImageEl.src = currentQ.image;
+      
+      if (currentQ.type === '객관식') {
+        inputAnswerDiv.style.display = 'none';
+        optionsDiv.style.display = 'flex';
+        optionsDiv.innerHTML = '';
+        const isMultiple = currentQ.answer.indexOf('&') !== -1;
+        for (let i = 1; i <= 5; i++) {
+          const btn = document.createElement('button');
+          btn.className = 'option-btn';
+          btn.innerText = i;
+          btn.dataset.value = i;
+          if (isMultiple) {
+            btn.addEventListener('click', () => handleOptionClickMultiple(btn, currentQ));
+          } else {
+            btn.addEventListener('click', () => handleOptionClickSingle(btn));
+          }
+          optionsDiv.appendChild(btn);
+        }
+      } else if (currentQ.type === '주관식') {
+        optionsDiv.style.display = 'none';
+        inputAnswerDiv.style.display = 'flex';
+        answerInput.value = '';
+        answerInput.disabled = false;
+        checkAnswerBtn.disabled = false;
+      }
+      
+      nextBtn.innerText = (currentQuestionIndex === questions.length - 1) ? '완료' : '다음 문제';
+    }
+    
+    function handleOptionClickSingle(btn) {
+      if (nextBtn.disabled === false) return;
+      Array.from(optionsDiv.children).forEach(b => b.disabled = true);
+      btn.classList.add('selected');
+      const selected = btn.dataset.value;
+      checkAnswer(selected);
+    }
+    
+    function handleOptionClickMultiple(btn, currentQ) {
+      if (btn.classList.contains('selected')) {
+        btn.classList.remove('selected');
+        const index = selectedOptions.indexOf(btn.dataset.value);
+        if (index > -1) {
+          selectedOptions.splice(index, 1);
+        }
+      } else {
+        btn.classList.add('selected');
+        selectedOptions.push(btn.dataset.value);
+      }
+      const requiredCount = currentQ.answer.split('&').length;
+      if (selectedOptions.length === requiredCount) {
+        Array.from(optionsDiv.children).forEach(b => b.disabled = true);
+        checkAnswer(selectedOptions.join('&'));
+      }
+    }
+    
+    checkAnswerBtn.addEventListener('click', () => {
+      if (answerInput.value.trim() === '') {
+        alert('답을 입력해주세요.');
+        return;
+      }
+      answerInput.disabled = true;
+      checkAnswerBtn.disabled = true;
+      checkAnswer(answerInput.value.trim());
+    });
+    
+    function checkAnswer(selectedAnswer) {
+      const currentQ = questions[currentQuestionIndex];
+      let isCorrect;
+      if (currentQ.answer.indexOf('&') !== -1) {
+        const requiredAnswers = currentQ.answer.split('&').sort().join('&');
+        const givenAnswers = selectedAnswer.split('&').sort().join('&');
+        isCorrect = (requiredAnswers === givenAnswers);
+      } else {
+        isCorrect = (selectedAnswer === currentQ.answer);
+      }
+      
+      if (isCorrect) {
+        feedbackEl.innerText = '정답입니다!';
+        feedbackEl.classList.add('correct');
+        score += 10;
+      } else {
+        feedbackEl.innerText = `오답입니다! 정답은 ${currentQ.answer} 입니다.`;
+        feedbackEl.classList.add('incorrect');
+        chances = Math.max(chances - 1, 0);
+      }
+      updateInfo();
+      if (chances === 0) {
+        endGame();
+        return;
+      }
+      if (currentQuestionIndex === questions.length - 1) {
+        progressBar.style.width = '100%';
+      } else {
+        progressBar.style.width = (((currentQuestionIndex + 1) / questions.length) * 100) + '%';
+      }
+      nextBtn.disabled = false;
+    }
+    
+    nextBtn.addEventListener('click', () => {
+      if (currentQuestionIndex === questions.length - 1) {
+        endGame();
+      } else {
+        currentQuestionIndex++;
+        loadQuestion();
+      }
+    });
+    
+    function endGame() {
+      clearInterval(overallTimerInterval);
+      gameScreen.style.display = 'none';
+      endScreen.style.display = 'block';
+      const elapsedSec = Math.floor((Date.now() - overallStartTime) / 1000);
+      finalScoreEl.innerText = score;
+      finalTimeEl.innerText = formatTime(elapsedSec);
+      finalScoreEl.style.fontSize = "3rem";
+      finalScoreEl.style.color = "var(--success-color)";
+      finalScoreEl.style.textShadow = "2px 2px 4px rgba(0,0,0,0.3)";
+      progressBar.style.width = '100%';
+      restartBtn.style.display = 'inline-block';
+    }
+    
+    restartBtn.addEventListener('click', () => {
+      currentQuestionIndex = 0;
+      score = 0;
+      chances = 3;
+      updateInfo();
+      feedbackEl.innerText = '';
+      endScreen.style.display = 'none';
+      gameScreen.style.display = 'block';
+      overallStartTime = Date.now();
+      overallTimerInterval = setInterval(updateOverallTimer, 1000);
+      shuffle(questions);
+      loadQuestion();
+    });
+    
+    submitBtn.addEventListener('click', () => {
+      submitBtn.disabled = true;
+      const elapsedSec = Math.floor((Date.now() - overallStartTime) / 1000);
+      saveData(gameTitle, playerName, score, elapsedSec);
+    });
+    
+    async function saveData(game, name, score, elapsedTime) {
+      const FUNCTION_URL = "https://us-central1-record-f420d.cloudfunctions.net/report";
+      const requestData = {
+        game,
+        name,
+        score: parseInt(score, 10),
+        elapsedTime: parseInt(elapsedTime, 10)
+      };
+      
+      try {
+        const response = await fetch(FUNCTION_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestData)
+        });
+        
+        const responseData = await response.json();
+        
+        if (response.ok) {
+          document.getElementById('response').innerText = `성공: ${JSON.stringify(responseData, null, 2)}`;
+        } else {
+          document.getElementById('response').innerText = `오류: ${JSON.stringify(responseData, null, 2)}`;
+        }
+      } catch (error) {
+        console.error('요청 실패:', error);
+        document.getElementById('response').innerText = `네트워크 오류: ${error.message}`;
+      }
+    }
+  </script>
+</body>
+</html>
